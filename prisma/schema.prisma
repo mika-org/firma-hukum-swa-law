@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model SiteSetting {
+  id              String   @id @default(cuid())
+  firmName        String   @default("Firma Hukum Swa Law") @map("firm_name")
+  tagline         String   @default("Trusted Legal Partner")
+  logoUrl         String?  @map("logo_url")
+  faviconUrl      String?  @map("favicon_url")
+  email           String   @default("kontak@swalaw.id")
+  phone           String   @default("+62 21 5555 8888")
+  whatsapp        String   @default("+62 812 3456 7890")
+  address         String   @default("Sudirman Central Business District (SCBD), Jakarta Selatan")
+  mapsUrl         String?  @map("maps_url")
+  openingHours    String   @default("Senin - Jumat: 08:30 - 17:30 WIB") @map("opening_hours")
+  instagram       String?
+  linkedin        String?
+  facebook        String?
+  youtube         String?
+  metaTitle       String   @default("Firma Hukum Swa Law — Trusted Legal Partner") @map("meta_title")
+  metaDescription String   @default("Firma hukum profesional yang memberikan pendampingan strategis dan solusi hukum terpercaya bagi individu dan korporasi.") @map("meta_description")
+  ogImageUrl      String?  @map("og_image_url")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+model HeroSection {
+  id                  String   @id @default(cuid())
+  eyebrow             String   @default("Your Trusted Legal Partner")
+  title               String   @default("Solusi Hukum yang Tepat untuk Melindungi Masa Depan Anda")
+  description         String   @default("Pendampingan hukum profesional bagi individu, perusahaan, dan pelaku usaha.")
+  primaryButtonText   String   @default("Konsultasi Sekarang") @map("primary_button_text")
+  primaryButtonUrl    String   @default("/#konsultasi") @map("primary_button_url")
+  secondaryButtonText String   @default("Pelajari Lebih Lanjut") @map("secondary_button_text")
+  secondaryButtonUrl  String   @default("/layanan") @map("secondary_button_url")
+  backgroundImage     String?  @map("background_image")
+  isActive            Boolean  @default(true) @map("is_active")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("hero_sections")
+}
+
+model AboutSection {
+  id          String   @id @default(cuid())
+  eyebrow     String   @default("Tentang Kami")
+  title       String   @default("Mendampingi Setiap Langkah Hukum Anda")
+  description String   @default("Kami adalah firma hukum yang memberikan pendampingan strategis dengan mengutamakan integritas, ketelitian, dan kepentingan klien. Kami percaya bahwa setiap kasus memiliki cerita, dan setiap klien berhak mendapatkan solusi hukum terbaik.")
+  imageUrl    String?  @map("image_url")
+  buttonText  String   @default("Pelajari Selengkapnya") @map("button_text")
+  buttonUrl   String   @default("/tentang-kami") @map("button_url")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("about_sections")
+}
+
+model Service {
+  id                   String                 @id @default(cuid())
+  name                 String
+  slug                 String                 @unique
+  shortDescription     String?                @map("short_description")
+  description          String?
+  icon                 String?                @default("briefcase")
+  image                String?
+  sortOrder            Int                    @default(0) @map("sort_order")
+  isActive             Boolean                @default(true) @map("is_active")
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @updatedAt @map("updated_at")
+  consultationRequests ConsultationRequest[]
+
+  @@map("services")
+}
+
+model TeamMember {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  position       String
+  photo          String?
+  specialization String
+  experience     String
+  bio            String?
+  education      String?
+  sortOrder      Int      @default(0) @map("sort_order")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("team_members")
+}
+
+model WhyChooseUs {
+  id        String              @id @default(cuid())
+  eyebrow   String              @default("Mengapa Memilih Kami")
+  title     String              @default("Nilai Lebih yang Kami Tawarkan")
+  imageUrl  String?             @map("image_url")
+  isActive  Boolean             @default(true) @map("is_active")
+  items     WhyChooseUsItem[]
+  createdAt DateTime            @default(now()) @map("created_at")
+  updatedAt DateTime            @updatedAt @map("updated_at")
+
+  @@map("why_choose_us")
+}
+
+model WhyChooseUsItem {
+  id            String       @id @default(cuid())
+  whyChooseUsId String       @map("why_choose_us_id")
+  title         String
+  description   String
+  icon          String       @default("scales")
+  sortOrder     Int          @default(0) @map("sort_order")
+  isActive      Boolean      @default(true) @map("is_active")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+  whyChooseUs   WhyChooseUs  @relation(fields: [whyChooseUsId], references: [id], onDelete: Cascade)
+
+  @@map("why_choose_us_items")
+}
+
+model ConsultationSection {
+  id          String   @id @default(cuid())
+  eyebrow     String   @default("Konsultasi Hukum")
+  title       String   @default("Jadwalkan Konsultasi Anda")
+  description String   @default("Ceritakan kebutuhan hukum Anda. Tim kami akan menghubungi Anda untuk informasi lebih lanjut.")
+  buttonText  String   @default("Kirim Permintaan Konsultasi") @map("button_text")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("consultation_sections")
+}
+
+model ConsultationRequest {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  serviceId String?  @map("service_id")
+  message   String
+  status    String   @default("NEW") // NEW, CONTACTED, IN_PROGRESS, COMPLETED, CANCELLED
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@map("consultation_requests")
+}
+
+model ArticleCategory {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  articles  Article[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("article_categories")
+}
+
+model Article {
+  id            String           @id @default(cuid())
+  title         String
+  slug          String           @unique
+  excerpt       String
+  content       String
+  featuredImage String?          @map("featured_image")
+  categoryId    String?          @map("category_id")
+  category      ArticleCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  author        String           @default("Tim Firma Hukum")
+  publishedAt   DateTime?        @map("published_at")
+  status        String           @default("PUBLISHED") // DRAFT, PUBLISHED
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+
+  @@map("articles")
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("faqs")
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  url         String
+  storagePath String?  @map("storage_path")
+  mimeType    String?  @map("mime_type")
+  size        Int?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("media")
+}

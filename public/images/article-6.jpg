@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081B28" />
+      <stop offset="60%" stop-color="#0D2635" />
+      <stop offset="100%" stop-color="#143447" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E9E2D2" />
+      <stop offset="50%" stop-color="#B29A68" />
+      <stop offset="100%" stop-color="#8E774A" />
+    </linearGradient>
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(178, 154, 104, 0.07)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" fill="url(#gridPattern)" />
+
+  <g transform="translate(200, 30)">
+    
+      <g stroke="#B29A68" stroke-width="2.5" fill="none">
+        <rect x="140" y="80" width="120" height="150" rx="6" fill="#15374C" />
+        <line x1="160" y1="120" x2="240" y2="120" stroke="#E9E2D2" />
+        <line x1="160" y1="150" x2="240" y2="150" stroke="#E9E2D2" />
+        <line x1="160" y1="180" x2="210" y2="180" stroke="#E9E2D2" />
+      </g>
+    
+  </g>
+
+  <g text-anchor="middle" transform="translate(400, 440)">
+    <text font-family="'Playfair Display', Georgia, serif" font-size="20" font-weight="600" fill="#F7F5EF" letter-spacing="1">
+      Pengalihan Aset Properti Komersial
+    </text>
+    <text y="28" font-family="'Inter', sans-serif" font-size="13" fill="#B29A68" letter-spacing="2">
+      HUKUM PERDATA & KONTRAK
+    </text>
+  </g>
+
+  <rect x="15" y="15" width="770" height="470" fill="none" stroke="#B29A68" stroke-width="1" opacity="0.3" rx="4" />
+</svg>
