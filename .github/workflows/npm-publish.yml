@@ -46,7 +46,8 @@ jobs:
 
             npm ci
 
-            npx prisma migrate deploy
+            npx prisma db push --accept-data-loss
+            npx prisma generate
 
             # Clean stale .next build cache to prevent ENOENT manifest errors and stale chunks
             rm -rf .next
