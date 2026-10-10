@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -30,7 +34,8 @@ jobs:
 
             cd /var/www/html/firma-hukum-swa-law
 
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             STORAGE_ROOT=/var/www/storage-firma-hukum-swa-law
             mkdir -p "$STORAGE_ROOT/uploads"
