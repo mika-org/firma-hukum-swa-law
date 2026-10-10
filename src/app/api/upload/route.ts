@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
+import { existsSync } from "fs";
 import path from "path";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
@@ -26,11 +27,22 @@ export async function POST(request: NextRequest) {
     const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
     const uniqueFileName = `${Date.now()}_${baseName}${ext}`;
 
-    const uploadDir = process.env.MEDIA_STORAGE_PATH || path.join(process.cwd(), "public", "uploads");
+    // Target storage directory: prioritize MEDIA_STORAGE_PATH, then VPS storage, then local public/uploads
+    const vpsStoragePath = "/var/www/storage-firma-hukum-swa-law/uploads";
+    let uploadDir = process.env.MEDIA_STORAGE_PATH;
+
+    if (!uploadDir) {
+      if (existsSync("/var/www/storage-firma-hukum-swa-law") || existsSync(vpsStoragePath)) {
+        uploadDir = vpsStoragePath;
+      } else {
+        uploadDir = path.join(process.cwd(), "public", "uploads");
+      }
+    }
+
     await mkdir(uploadDir, { recursive: true });
 
     const filePath = path.join(uploadDir, uniqueFileName);
-    await writeFile(filePath, buffer);
+    await writeFile(filePath, buffer, { mode: 0o664 });
 
     const publicUrl = `/uploads/${uniqueFileName}`;
 
