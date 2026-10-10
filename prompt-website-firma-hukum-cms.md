@@ -1,4 +1,5 @@
 # PROMPT — WEBSITE FIRMA HUKUM + CMS
+
 ## Next.js + Prisma + PostgreSQL
 
 Buat aplikasi website firma hukum profesional menggunakan:
