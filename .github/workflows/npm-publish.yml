@@ -49,12 +49,11 @@ jobs:
               cp -an public/storage/. "$STORAGE_ROOT/"
             fi
 
-            # Ensure public/uploads links to persistent storage
-            if [ -d public/uploads ] && [ ! -L public/uploads ]; then
-              cp -an public/uploads/. "$STORAGE_ROOT/uploads/" 2>/dev/null || true
-              rm -rf public/uploads
+            # Remove any symlink on public/uploads so Turbopack does not panic on out-of-root links
+            if [ -L public/uploads ]; then
+              rm -f public/uploads
             fi
-            ln -sfn "$STORAGE_ROOT/uploads" public/uploads
+            mkdir -p public/uploads
 
             npm ci
 
