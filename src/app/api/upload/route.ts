@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
     const uniqueFileName = `${Date.now()}_${baseName}${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    const uploadDir = process.env.MEDIA_STORAGE_PATH || path.join(process.cwd(), "public", "uploads");
     await mkdir(uploadDir, { recursive: true });
 
     const filePath = path.join(uploadDir, uniqueFileName);

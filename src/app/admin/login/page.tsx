@@ -46,8 +46,7 @@ export default function AdminLoginPage() {
                 type="email"
                 name="email"
                 required
-                defaultValue="admin@firmalaw.id"
-                placeholder="admin@firmalaw.id"
+                placeholder="nama@email.com"
                 className="w-full h-11 pl-10 pr-3.5 text-sm bg-white border border-border-subtle rounded-md text-text-dark placeholder:text-gray-400 focus:outline-none focus:border-navy-primary focus:ring-1 focus:ring-navy-primary transition-colors"
               />
             </div>
@@ -63,7 +62,6 @@ export default function AdminLoginPage() {
                 type="password"
                 name="password"
                 required
-                defaultValue="admin123"
                 placeholder="••••••••"
                 className="w-full h-11 pl-10 pr-3.5 text-sm bg-white border border-border-subtle rounded-md text-text-dark placeholder:text-gray-400 focus:outline-none focus:border-navy-primary focus:ring-1 focus:ring-navy-primary transition-colors"
               />
@@ -87,12 +85,6 @@ export default function AdminLoginPage() {
             </button>
           </div>
         </form>
-
-        <div className="pt-4 border-t border-border-subtle text-center text-xs text-text-muted">
-          <p>
-            Default Demo: <span className="font-mono text-navy-primary font-bold">admin@firmalaw.id</span> / <span className="font-mono text-navy-primary font-bold">admin123</span>
-          </p>
-        </div>
       </div>
     </div>
   );
