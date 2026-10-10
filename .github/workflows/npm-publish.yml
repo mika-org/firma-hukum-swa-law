@@ -32,13 +32,6 @@ jobs:
           script: |
             set -e
 
-            # Load NVM and environment PATH for non-interactive SSH
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$HOME/.profile" ] && \. "$HOME/.profile"
-            [ -s "$HOME/.bashrc" ] && \. "$HOME/.bashrc"
-            export PATH="$PATH:/usr/local/bin:$HOME/.local/bin:$HOME/.npm-global/bin"
-
             cd /var/www/html/firma-hukum-swa-law
 
             git fetch origin main
@@ -66,18 +59,15 @@ jobs:
 
             npm run build
 
+            # PM2 management
             PM2_BIN="pm2"
             if ! command -v pm2 > /dev/null 2>&1; then
               PM2_BIN="npx pm2"
             fi
 
-            if $PM2_BIN describe firma-hukum-swa-law > /dev/null 2>&1; then
-              PORT=3007 $PM2_BIN restart firma-hukum-swa-law --update-env
-            else
-              PORT=3007 $PM2_BIN start npm --name firma-hukum-swa-law -- start
-            fi
-
-            $PM2_BIN save
+            echo "Managing process with $PM2_BIN..."
+            $PM2_BIN restart firma-hukum-swa-law --update-env || PORT=3007 $PM2_BIN start npm --name firma-hukum-swa-law -- start || true
+            $PM2_BIN save || true
 
       - name: Calculate Duration
         if: always()
